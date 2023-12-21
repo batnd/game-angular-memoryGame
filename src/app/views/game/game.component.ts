@@ -9,16 +9,17 @@ import {SourceCardsInterface} from "../../types/sourceCards.interface";
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  public clicks: number = 0;
+  public moves: number = 0;
   public cards: CardInterface[] = [];
   public isAllCardsCompleted: boolean = false;
+  public clickOneOrTwoCards: boolean = false;
 
   ngOnInit(): void {
     this.newGame();
   }
 
   private newGame(): void {
-    this.clicks = 0;
+    this.moves = 0;
     let id: number = 1;
     this.cards = [...config.cards, ...config.cards]
       .sort(() => Math.random() - 0.5)
@@ -36,10 +37,13 @@ export class GameComponent implements OnInit {
     });
 
     this.processChoosingCards();
-    this.clicks = this.clicks + 1;
+    if (this.clickOneOrTwoCards) {
+      this.moves = this.moves + 1;
+    }
   }
 
   private processChoosingCards(): void {
+    this.clickOneOrTwoCards = false;
     const openedCards: CardInterface[] = this.cards.filter((item: CardInterface) => item.isOpened);
     if (openedCards.length === 2) {
       if (openedCards[0].name === openedCards[1].name) {
@@ -48,8 +52,10 @@ export class GameComponent implements OnInit {
           item.isOpened = false;
           return item;
         });
+        this.clickOneOrTwoCards = true;
         this.checkForAllCardsCompleted();
       } else {
+        this.clickOneOrTwoCards = true;
         setTimeout((): void => {
           this.cards = this.cards.map((item: CardInterface) => {
              item.isOpened = false;
