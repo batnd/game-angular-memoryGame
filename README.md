@@ -4,7 +4,7 @@
 
 ## Внешний вид
 
-![project-screen](project_images.jpg)
+![project-screen](project_image.jpg)
 
 ## Выполненные задачи:
 - Практика реализации игры с использованием фреймворка Angular;
